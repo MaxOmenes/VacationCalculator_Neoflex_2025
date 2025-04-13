@@ -22,16 +22,16 @@ public class VacationRequestFactory {
         }
 
         if (vacationRequestDTO.getStartDate() != null &&
-                vacationRequestDTO.getEndDate() != null) { //Simple format
-            return SimpleVacationEntity.builder()
-                    .vacationDays(vacationRequestDTO.getVacationDays())
-                    .salary(vacationRequestDTO.getSalary())
-                    .build();
-        } else if (vacationRequestDTO.getVacationDays() != null &&
-                vacationRequestDTO.getVacationDays() > 0) { // DateBased format
+                vacationRequestDTO.getEndDate() != null) { //DateBased format
             return DateBasedVacationEntity.builder()
                     .startDate(vacationRequestDTO.getStartDate())
                     .endDate(vacationRequestDTO.getEndDate()) //TODO: parse dates
+                    .salary(vacationRequestDTO.getSalary())
+                    .build();
+        } else if (vacationRequestDTO.getVacationDays() != null &&
+                vacationRequestDTO.getVacationDays() > 0) { // Simple format
+            return SimpleVacationEntity.builder()
+                    .vacationDays(vacationRequestDTO.getVacationDays())
                     .salary(vacationRequestDTO.getSalary())
                     .build();
         }else{

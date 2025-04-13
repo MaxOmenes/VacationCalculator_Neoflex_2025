@@ -2,6 +2,7 @@ package ru.neoflex.ukhin.vacationcalculator.api.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -9,7 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-public class VacationRequestDTO {
+@Builder
+public class VacationRequestDTO{
     @NotNull(message = "Salary is required")
     @Min(value = 0, message = "Salary must be positive")
     private Double salary;
