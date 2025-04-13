@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: VacationCalculator_Neoflex_2025
+vacation:
+  holidays:
+    file: classpath:holidays.txt
+
