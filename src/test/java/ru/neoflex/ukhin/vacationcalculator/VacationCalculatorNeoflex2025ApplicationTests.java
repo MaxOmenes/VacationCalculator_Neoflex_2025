@@ -5,9 +5,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class VacationCalculatorNeoflex2025ApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
 }

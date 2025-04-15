@@ -1,13 +1,12 @@
 package ru.neoflex.ukhin.vacationcalculator.api.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -19,9 +18,9 @@ public class VacationRequestDTO{
     @Min(value = 0, message = "Vacation days must be positive")
     private Integer vacationDays;
 
-    private LocalDate startDate; //TODO: change to String
+    @Pattern(regexp = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-([0-9]{4})", message = "Start date must be in dd-MM-yyyy format")
+    private String startDate;
 
-    private LocalDate endDate; //TODO: change to String
-
-    //TODO: add validation and required fields
+    @Pattern(regexp = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-([0-9]{4})", message = "End date must be in dd-MM-yyyy format")
+    private String endDate;
 }

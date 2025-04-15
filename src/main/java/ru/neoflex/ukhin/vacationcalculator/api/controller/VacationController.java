@@ -4,14 +4,17 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ru.neoflex.ukhin.vacationcalculator.api.dto.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.neoflex.ukhin.vacationcalculator.api.dto.VacationRequestDTO;
+import ru.neoflex.ukhin.vacationcalculator.api.dto.VacationResponseDTO;
 import ru.neoflex.ukhin.vacationcalculator.api.factory.VacationRequestFactory;
 import ru.neoflex.ukhin.vacationcalculator.service.VacationCalculatorService;
 import ru.neoflex.ukhin.vacationcalculator.store.entity.vacation.VacationEntity;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import javax.validation.Valid;
 
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -20,7 +23,6 @@ public class VacationController {
 
     VacationCalculatorService vacationCalculatorService;
     VacationRequestFactory vacationRequestFactory;
-    DateTimeFormatter dateTimeFormatter;
 
     /**
      * Endpoint to calculate vacation pay.
@@ -43,9 +45,10 @@ public class VacationController {
         VacationRequestDTO vacationRequestDTO = VacationRequestDTO.builder()
                 .salary(salary)
                 .vacationDays(vacationDays)
-                .startDate(startDate != null ? LocalDate.parse(startDate, dateTimeFormatter) : null)
-                .endDate(endDate != null ? LocalDate.parse(endDate, dateTimeFormatter) : null)
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
+
         VacationEntity vacationEntity = vacationRequestFactory.createVacationEntity(vacationRequestDTO);
         double vacationPay = vacationCalculatorService.calculate(vacationEntity);
 

@@ -29,13 +29,17 @@ public class VacationCalculatorService {
             throw new IllegalArgumentException("Vacation entity or salary cannot be null");
         }
 
+        double salary;
+
         if (vacationEntity instanceof SimpleVacationEntity) {
-            return calculateSimple((SimpleVacationEntity) vacationEntity);
+            salary = calculateSimple((SimpleVacationEntity) vacationEntity);
         } else if (vacationEntity instanceof DateBasedVacationEntity) {
-            return calculateDateBased((DateBasedVacationEntity) vacationEntity);
+            salary = calculateDateBased((DateBasedVacationEntity) vacationEntity);
         } else {
             throw new IllegalArgumentException("Unknown vacation entity type");
         }
+
+        return Math.round(salary * 100.0) / 100.0; // Round to 2 decimal places
     }
 
     /**
