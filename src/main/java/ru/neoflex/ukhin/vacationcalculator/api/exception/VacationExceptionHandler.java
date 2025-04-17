@@ -23,7 +23,7 @@ public class VacationExceptionHandler extends ResponseEntityExceptionHandler {
         return handleException(ex, request);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler({ConstraintViolationException.class, ValidationException.class})
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {
         log.error("Validation error", ex);
 

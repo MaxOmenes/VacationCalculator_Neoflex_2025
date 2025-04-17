@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import ru.neoflex.ukhin.vacationcalculator.api.dto.VacationRequestDTO;
+import ru.neoflex.ukhin.vacationcalculator.api.exception.ValidationException;
 import ru.neoflex.ukhin.vacationcalculator.store.entity.vacation.DateBasedVacationEntity;
 import ru.neoflex.ukhin.vacationcalculator.store.entity.vacation.SimpleVacationEntity;
 import ru.neoflex.ukhin.vacationcalculator.store.entity.vacation.VacationEntity;
@@ -31,7 +32,7 @@ public class VacationRequestFactory {
      */
     public VacationEntity createVacationEntity(@Valid VacationRequestDTO vacationRequestDTO) {
         if (vacationRequestDTO == null) {
-            throw new IllegalArgumentException("vacationRequestDTO is null");
+            throw new ValidationException("No parameters");
         }
 
         if (vacationRequestDTO.getStartDate() != null &&
@@ -43,7 +44,7 @@ public class VacationRequestFactory {
                         .salary(vacationRequestDTO.getSalary())
                         .build();
             } catch (DateTimeParseException e){
-                throw new IllegalArgumentException("Date must be in dd-MM-yyyy format");
+                throw new ValidationException("Date must be in dd-MM-yyyy format");
             }
         } else if (vacationRequestDTO.getVacationDays() != null &&
                 vacationRequestDTO.getVacationDays() > 0) { // Simple format
@@ -51,8 +52,10 @@ public class VacationRequestFactory {
                     .vacationDays(vacationRequestDTO.getVacationDays())
                     .salary(vacationRequestDTO.getSalary())
                     .build();
-        }else{
-            throw new IllegalArgumentException("vacationRequestDTO is not valid");
+        }else if (vacationRequestDTO.getSalary() == null) {
+            throw new ValidationException("Salary is required");
+        }else {
+            throw new ValidationException("Parameters validation failed");
         }
     }
 }
